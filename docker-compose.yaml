@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  database:
+    container_name: axum-surreal
+    entrypoint: 
+      - /surreal 
+      - start
+      - --auth
+      - --user
+      - $DB_USER
+      - --pass
+      - $DB_PASS
+    image: surrealdb/surrealdb:latest
+    network_mode: host
