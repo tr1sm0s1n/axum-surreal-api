@@ -36,6 +36,8 @@ async fn main() {
 fn app(client: Surreal<Client>) -> Router {
     Router::new()
         .route("/", get(home))
+        .route("/register", post(handlers::register))
+        .route("/login", post(handlers::login))
         .layer(TraceLayer::new_for_http())
         .with_state(client)
 }
