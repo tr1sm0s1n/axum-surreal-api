@@ -3,7 +3,7 @@ use axum::{extract::State, http::StatusCode, Json};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 
 use crate::{
-    models::{Record, User},
+    models::User,
     types::LoginRequest,
 };
 
@@ -11,15 +11,15 @@ use crate::{
 pub async fn register(
     State(db): State<Surreal<Client>>,
     Json(input): Json<User>,
-) -> Result<Json<Option<Record>>, (StatusCode, String)> {
-    let record: Option<Record> = db
+) -> Result<Json<Option<User>>, (StatusCode, String)> {
+    let user: Option<User> = db
         .create(("user", input.email.clone()))
         .content(input)
         .await
         .map_err(internal_error)?;
-    dbg!(record.clone());
+    dbg!(user.clone());
 
-    Ok(Json(record))
+    Ok(Json(user))
 }
 
 pub async fn login(
