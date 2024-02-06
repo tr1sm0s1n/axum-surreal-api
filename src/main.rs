@@ -1,7 +1,6 @@
 mod config;
 mod handlers;
 mod models;
-mod types;
 
 use axum::{
     routing::{get, post},

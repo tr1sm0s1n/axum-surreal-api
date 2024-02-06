@@ -3,9 +3,8 @@ use surrealdb::sql::Thing;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct User {
-    pub email: String,
+    pub name: String,
     pub password: String,
-    name: String,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -14,8 +13,8 @@ pub struct Book {
     pub author: String,
     pub genre: String,
     description: String,
-    avg_rating: u8,
-    pub reviews: Vec<Review>
+    pub avg_rating: Option<u8>,
+    pub reviews: Option<Vec<Review>>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -23,7 +22,7 @@ pub struct Review {
     pub user: String,
     title: String,
     content: String,
-    rating: u8
+    rating: u8,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
