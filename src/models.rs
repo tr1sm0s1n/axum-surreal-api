@@ -20,9 +20,9 @@ pub struct Book {
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Review {
     pub user: String,
-    title: String,
+    pub title: String,
     content: String,
-    rating: u8,
+    pub rating: u8,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
