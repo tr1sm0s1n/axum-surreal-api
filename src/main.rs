@@ -6,10 +6,10 @@ use axum::{
     routing::{get, post},
     Router,
 };
+use handlers::{books, users};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use handlers::users;
 
 #[tokio::main]
 async fn main() {
@@ -38,6 +38,7 @@ fn app(client: Surreal<Client>) -> Router {
         .route("/", get(home))
         .route("/register", post(users::register))
         .route("/login", post(users::login))
+        .route("/add-book", post(books::add_book))
         .layer(TraceLayer::new_for_http())
         .with_state(client)
 }
