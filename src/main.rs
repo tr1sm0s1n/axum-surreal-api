@@ -1,13 +1,15 @@
 mod config;
 mod handlers;
 mod models;
-mod types;
+mod templates;
 
+use askama::Template;
 use axum::{
-    routing::{get, post},
-    Router,
+    http::StatusCode, response::{Html, IntoResponse}, routing::{get, patch, post}, Router
 };
+use handlers::{books, users};
 use surrealdb::{engine::remote::ws::Client, Surreal};
+use templates::Index;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -36,12 +38,16 @@ async fn main() {
 fn app(client: Surreal<Client>) -> Router {
     Router::new()
         .route("/", get(home))
-        .route("/register", post(handlers::register))
-        .route("/login", post(handlers::login))
+        .route("/register", post(users::register))
+        .route("/login", post(users::login))
+        .route("/add-book", post(books::add_book))
+        .route("/add-review", patch(books::add_review))
         .layer(TraceLayer::new_for_http())
         .with_state(client)
 }
 
-async fn home() -> &'static str {
-    "Hello, World!"
+async fn home() -> impl IntoResponse {
+    let template = Index { title: "Axum-Surreal", message: "Hello, World!" };
+    let reply_html = template.render().unwrap();
+    (StatusCode::OK, Html(reply_html).into_response())
 }
