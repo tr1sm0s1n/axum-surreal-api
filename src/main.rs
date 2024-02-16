@@ -5,12 +5,15 @@ mod templates;
 
 use askama::Template;
 use axum::{
-    http::StatusCode, response::{Html, IntoResponse}, routing::{get, patch, post}, Router
+    http::StatusCode,
+    response::{Html, IntoResponse},
+    routing::{get, patch, post},
+    Router,
 };
 use handlers::{books, users};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 use templates::Index;
-use tower_http::trace::TraceLayer;
+use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
@@ -42,12 +45,16 @@ fn app(client: Surreal<Client>) -> Router {
         .route("/login", post(users::login))
         .route("/add-book", post(books::add_book))
         .route("/add-review", patch(books::add_review))
+        .nest_service("/public", ServeDir::new("public"))
         .layer(TraceLayer::new_for_http())
         .with_state(client)
 }
 
 async fn home() -> impl IntoResponse {
-    let template = Index { title: "Axum-Surreal", message: "Hello, World!" };
+    let template = Index {
+        title: "Axum-Surreal",
+        message: "Hello, World!",
+    };
     let reply_html = template.render().unwrap();
     (StatusCode::OK, Html(reply_html).into_response())
 }
