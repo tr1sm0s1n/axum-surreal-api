@@ -1,0 +1,11 @@
+# Book-Review-App
+
+Simple review app with user register and user login.
+
+## 🛠 Built With
+
+[![Rust Badge](https://img.shields.io/badge/Rust-000?logo=rust&logoColor=fff&style=for-the-badge)](https://www.rust-lang.org/)
+[![Axum Badge](https://img.shields.io/badge/Axum-000?logo=rust&logoColor=fff&style=for-the-badge)](https://docs.rs/axum/latest/axum/)
+[![SurrealDB Badge](https://img.shields.io/badge/SurrealDB-FF00A0?logo=surrealdb&logoColor=fff&style=for-the-badge)](https://surrealdb.com/)
+[![Docker Badge](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge)](https://www.docker.com/)
+[![htmx Badge](https://img.shields.io/badge/htmx-36C?logo=htmx&logoColor=fff&style=for-the-badge)](https://htmx.org/)
