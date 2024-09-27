@@ -1,13 +1,12 @@
 mod config;
 mod handlers;
 mod models;
-mod templates;
 
 use axum::{
-    routing::{get, patch, post},
+    routing::{patch, post},
     Router,
 };
-use handlers::{books, users, views};
+use handlers::{books, users};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -40,10 +39,7 @@ async fn main() {
 
 fn app(client: Surreal<Client>) -> Router {
     Router::new()
-        .route("/", get(views::home))
-        .route("/register", get(views::register_user))
         .route("/register", post(users::register))
-        .route("/login", get(views::login_user))
         .route("/login", post(users::login))
         .route("/add-book", post(books::add_book))
         .route("/add-review", patch(books::add_review))

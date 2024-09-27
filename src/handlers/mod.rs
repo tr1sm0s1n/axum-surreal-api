@@ -1,6 +1,5 @@
 pub mod books;
 pub mod users;
-pub mod views;
 
 use axum::http::StatusCode;
 
