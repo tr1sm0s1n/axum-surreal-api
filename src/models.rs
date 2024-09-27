@@ -3,7 +3,7 @@ use surrealdb::sql::Thing;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct User {
-    pub name: String,
+    pub email: String,
     pub password: String,
 }
 

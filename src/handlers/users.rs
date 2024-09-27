@@ -10,7 +10,7 @@ pub async fn register(
     Json(input): Json<User>,
 ) -> Result<Json<Option<User>>, (StatusCode, String)> {
     let user: Option<User> = db
-        .create(("user", input.name.clone()))
+        .create(("user", input.email.clone()))
         .content(input)
         .await
         .map_err(internal_error)?;
@@ -24,7 +24,7 @@ pub async fn login(
     Json(input): Json<User>,
 ) -> Result<(StatusCode, String), (StatusCode, String)> {
     let user: Option<User> = db
-        .select(("user", input.name))
+        .select(("user", input.email))
         .await
         .map_err(internal_error)?;
     dbg!(user.clone());

@@ -1,26 +1,30 @@
 <script lang="ts">
-  let user = ''
-  let password = ''
-  const login = async () => {
+let email = ''
+let password = ''
+const login = async () => {
+  try {
     const response = await fetch('http://127.0.0.1:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: user,
-        password: password,
+        email,
+        password,
       }),
     })
 
     if (response.ok) {
       alert(`Success!!`)
-      user = ''
+      email = ''
       password = ''
     } else {
       alert(`Error: ${await response.json()}`)
     }
+  } catch (error) {
+    alert(`Error: ${error}`)
   }
+}
 </script>
 
 <main>
@@ -48,7 +52,7 @@
               type="email"
               autocomplete="email"
               required
-              bind:value={user}
+              bind:value={email}
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
