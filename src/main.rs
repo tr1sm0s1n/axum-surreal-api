@@ -9,7 +9,11 @@ use axum::{
 };
 use handlers::{books, users, views};
 use surrealdb::{engine::remote::ws::Client, Surreal};
-use tower_http::{services::ServeDir, trace::TraceLayer};
+use tower_http::{
+    cors::{Any, CorsLayer},
+    services::ServeDir,
+    trace::TraceLayer,
+};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
@@ -45,5 +49,11 @@ fn app(client: Surreal<Client>) -> Router {
         .route("/add-review", patch(books::add_review))
         .nest_service("/public", ServeDir::new("public"))
         .layer(TraceLayer::new_for_http())
+        .layer(
+            CorsLayer::new()
+                .allow_origin(Any)
+                .allow_methods(Any)
+                .allow_headers(Any),
+        )
         .with_state(client)
 }
