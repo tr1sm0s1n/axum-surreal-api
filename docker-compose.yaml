@@ -6,7 +6,6 @@ services:
     entrypoint: 
       - /surreal 
       - start
-      - --auth
       - --user
       - $DB_USER
       - --pass
