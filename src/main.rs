@@ -3,7 +3,7 @@ mod handlers;
 mod models;
 
 use axum::{
-    routing::{patch, post},
+    routing::{get, patch, post},
     Router,
 };
 use handlers::{books, users};
@@ -42,6 +42,7 @@ fn app(client: Surreal<Client>) -> Router {
         .route("/register", post(users::register))
         .route("/login", post(users::login))
         .route("/add-book", post(books::add_book))
+        .route("/get-books", get(books::get_books))
         .route("/add-review", patch(books::add_review))
         .nest_service("/public", ServeDir::new("public"))
         .layer(TraceLayer::new_for_http())

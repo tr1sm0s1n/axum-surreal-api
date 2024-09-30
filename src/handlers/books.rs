@@ -20,6 +20,15 @@ pub async fn add_book(
     Ok(Json(book))
 }
 
+pub async fn get_books(
+    State(db): State<Surreal<Client>>,
+) -> Result<Json<Vec<Book>>, (StatusCode, String)> {
+    let books: Vec<Book> = db.select("book").await.map_err(internal_error)?;
+    dbg!(books.clone());
+
+    Ok(Json(books))
+}
+
 pub async fn add_review(
     State(db): State<Surreal<Client>>,
     Json(input): Json<Review>,
